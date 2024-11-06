@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "postfix_evaluate.C": "cpp",
+        "balpar2.C": "cpp",
+        "infix2postfix.C": "cpp"
+    }
+}

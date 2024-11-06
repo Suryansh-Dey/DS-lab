@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>DS LAB 8&comma; AIML</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="ds-lab-8-aiml">DS LAB 8, AIML</h2>
+<h3 id="bstdef1h">bstdef1.h</h3>
+<pre><code class="language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;queue_array_def.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;treenode_def.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fstream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">bst</span> {
+<span class="hljs-keyword">public</span>:
+  treenode *root;
+  <span class="hljs-built_in">bst</span>() { root = <span class="hljs-number">0</span>; }
+  <span class="hljs-function">treenode *<span class="hljs-title">makenode</span><span class="hljs-params">(<span class="hljs-type">int</span> val)</span> </span>{
+    treenode *p;
+    <span class="hljs-keyword">if</span> ((p = <span class="hljs-keyword">new</span> treenode) == <span class="hljs-literal">NULL</span>) {
+      cerr &lt;&lt; <span class="hljs-string">&quot;run out of memory : quitting &quot;</span> &lt;&lt; endl;
+      <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);
+    } <span class="hljs-keyword">else</span> {
+      p-&gt;key = val;
+      p-&gt;left = <span class="hljs-literal">NULL</span>;
+      p-&gt;right = <span class="hljs-literal">NULL</span>;
+      p-&gt;par = <span class="hljs-literal">NULL</span>;
+      <span class="hljs-keyword">return</span> p;
+    }
+  }
+
+  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">insert</span><span class="hljs-params">(<span class="hljs-type">int</span> key)</span> </span>{
+    treenode *x = root, *y = <span class="hljs-number">0</span>;
+    treenode *p;
+    p = <span class="hljs-built_in">makenode</span>(key);
+    <span class="hljs-keyword">while</span> (x != <span class="hljs-number">0</span>) {
+      y = x;
+      <span class="hljs-keyword">if</span> (p-&gt;key &lt; x-&gt;key)
+        x = x-&gt;left;
+      <span class="hljs-keyword">else</span>
+        x = x-&gt;right;
+    }
+    <span class="hljs-keyword">if</span> (y == <span class="hljs-number">0</span>)
+      root = p;
+    <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">if</span> (p-&gt;key &lt; y-&gt;key)
+        y-&gt;left = p;
+      <span class="hljs-keyword">else</span>
+        y-&gt;right = p;
+      p-&gt;par = y;
+    }
+  }
+};
+</code></pre>
+<h3 id="bstdef2h">bstdef2.h</h3>
+<pre><code class="language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;queue_array_def.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;treenode_def.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fstream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">bst</span> {
+<span class="hljs-keyword">public</span>:
+  treenode *root;
+  <span class="hljs-built_in">bst</span>() { root = <span class="hljs-number">0</span>; }
+  <span class="hljs-function">treenode *<span class="hljs-title">makenode</span><span class="hljs-params">(<span class="hljs-type">int</span> val)</span> </span>{
+    treenode *p;
+    <span class="hljs-keyword">if</span> ((p = <span class="hljs-keyword">new</span> treenode) == <span class="hljs-literal">NULL</span>) {
+      cerr &lt;&lt; <span class="hljs-string">&quot;run out of memory : quitting &quot;</span> &lt;&lt; endl;
+      <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);
+    } <span class="hljs-keyword">else</span> {
+      p-&gt;key = val;
+      p-&gt;left = <span class="hljs-literal">NULL</span>;
+      p-&gt;right = <span class="hljs-literal">NULL</span>;
+      p-&gt;par = <span class="hljs-literal">NULL</span>;
+      <span class="hljs-keyword">return</span> p;
+    }
+  }
+
+  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">insert</span><span class="hljs-params">(<span class="hljs-type">int</span> key)</span> </span>{
+    treenode *x = root, *y = <span class="hljs-number">0</span>;
+    treenode *p;
+    p = <span class="hljs-built_in">makenode</span>(key);
+    <span class="hljs-keyword">while</span> (x != <span class="hljs-number">0</span>) {
+      y = x;
+      <span class="hljs-keyword">if</span> (p-&gt;key &lt; x-&gt;key)
+        x = x-&gt;left;
+      <span class="hljs-keyword">else</span>
+        x = x-&gt;right;
+    }
+    <span class="hljs-keyword">if</span> (y == <span class="hljs-number">0</span>)
+      root = p;
+    <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">if</span> (p-&gt;key &lt; y-&gt;key)
+        y-&gt;left = p;
+      <span class="hljs-keyword">else</span>
+        y-&gt;right = p;
+      p-&gt;par = y;
+    }
+  }
+  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">inorder</span><span class="hljs-params">(treenode *node)</span> </span>{
+    <span class="hljs-keyword">if</span> (!node)
+      <span class="hljs-keyword">return</span>;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d &quot;</span>, node-&gt;key);
+    <span class="hljs-built_in">inorder</span>(node-&gt;left);
+    <span class="hljs-built_in">inorder</span>(node-&gt;right);
+  }
+};
+</code></pre>
+<h3 id="bstdefh">bstdef.h</h3>
+<pre><code class="language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;queue_array_def.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;treenode_def.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdint&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fstream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">bst</span> {
+<span class="hljs-keyword">public</span>:
+  treenode *root;
+  <span class="hljs-built_in">bst</span>() { root = <span class="hljs-number">0</span>; }
+  <span class="hljs-function">treenode *<span class="hljs-title">makenode</span><span class="hljs-params">(<span class="hljs-type">int</span> val)</span> </span>{
+    treenode *p;
+    <span class="hljs-keyword">if</span> ((p = <span class="hljs-keyword">new</span> treenode) == <span class="hljs-literal">NULL</span>) {
+      cerr &lt;&lt; <span class="hljs-string">&quot;run out of memory : quitting &quot;</span> &lt;&lt; endl;
+      <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);
+    } <span class="hljs-keyword">else</span> {
+      p-&gt;key = val;
+      p-&gt;left = <span class="hljs-literal">NULL</span>;
+      p-&gt;right = <span class="hljs-literal">NULL</span>;
+      p-&gt;par = <span class="hljs-literal">NULL</span>;
+      <span class="hljs-keyword">return</span> p;
+    }
+  }
+
+  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">insert</span><span class="hljs-params">(<span class="hljs-type">int</span> key)</span> </span>{
+    treenode *x = root, *y = <span class="hljs-number">0</span>;
+    treenode *p;
+    p = <span class="hljs-built_in">makenode</span>(key);
+    <span class="hljs-keyword">while</span> (x != <span class="hljs-number">0</span>) {
+      y = x;
+      <span class="hljs-keyword">if</span> (p-&gt;key &lt; x-&gt;key)
+        x = x-&gt;left;
+      <span class="hljs-keyword">else</span>
+        x = x-&gt;right;
+    }
+    <span class="hljs-keyword">if</span> (y == <span class="hljs-number">0</span>)
+      root = p;
+    <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">if</span> (p-&gt;key &lt; y-&gt;key)
+        y-&gt;left = p;
+      <span class="hljs-keyword">else</span>
+        y-&gt;right = p;
+      p-&gt;par = y;
+    }
+  }
+  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">bfsearch</span><span class="hljs-params">(treenode *node)</span> </span>{
+    queue q;
+    q.<span class="hljs-built_in">insert</span>(node);
+
+    <span class="hljs-keyword">while</span> (!q.<span class="hljs-built_in">isempty</span>()) {
+      treenode *element = q.<span class="hljs-built_in">del</span>();
+      <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d &quot;</span>, element-&gt;key);
+      <span class="hljs-keyword">if</span> (element-&gt;left)
+        q.<span class="hljs-built_in">insert</span>(element-&gt;left);
+      <span class="hljs-keyword">if</span> (element-&gt;right)
+        q.<span class="hljs-built_in">insert</span>(element-&gt;right);
+    }
+  }
+  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">preorder</span><span class="hljs-params">(treenode *node)</span> </span>{
+    <span class="hljs-keyword">if</span> (!node)
+      <span class="hljs-keyword">return</span>;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d &quot;</span>, node-&gt;key);
+    <span class="hljs-built_in">preorder</span>(node-&gt;left);
+    <span class="hljs-built_in">preorder</span>(node-&gt;right);
+  }
+  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">inorder</span><span class="hljs-params">(treenode *node)</span> </span>{
+    <span class="hljs-keyword">if</span> (!node)
+      <span class="hljs-keyword">return</span>;
+    <span class="hljs-built_in">inorder</span>(node-&gt;left);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d &quot;</span>, node-&gt;key);
+    <span class="hljs-built_in">inorder</span>(node-&gt;right);
+  }
+  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">postorder</span><span class="hljs-params">(treenode *node)</span> </span>{
+    <span class="hljs-keyword">if</span> (!node)
+      <span class="hljs-keyword">return</span>;
+    <span class="hljs-built_in">postorder</span>(node-&gt;left);
+    <span class="hljs-built_in">postorder</span>(node-&gt;right);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d &quot;</span>, node-&gt;key);
+  }
+  <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">max</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-type">int</span> maxKey = INT32_MIN;
+    queue q;
+    q.<span class="hljs-built_in">insert</span>(root);
+
+    <span class="hljs-keyword">while</span> (!q.<span class="hljs-built_in">isempty</span>()) {
+      treenode *element = q.<span class="hljs-built_in">del</span>();
+      <span class="hljs-keyword">if</span> (element-&gt;left)
+        q.<span class="hljs-built_in">insert</span>(element-&gt;left);
+      <span class="hljs-keyword">if</span> (element-&gt;right)
+        q.<span class="hljs-built_in">insert</span>(element-&gt;right);
+      maxKey = element-&gt;key &gt; maxKey ? element-&gt;key : maxKey;
+    }
+    <span class="hljs-keyword">return</span> maxKey;
+  }
+  <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">min</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-type">int</span> minKey = INT32_MAX;
+    queue q;
+    q.<span class="hljs-built_in">insert</span>(root);
+
+    <span class="hljs-keyword">while</span> (!q.<span class="hljs-built_in">isempty</span>()) {
+      treenode *element = q.<span class="hljs-built_in">del</span>();
+      <span class="hljs-keyword">if</span> (element-&gt;left)
+        q.<span class="hljs-built_in">insert</span>(element-&gt;left);
+      <span class="hljs-keyword">if</span> (element-&gt;right)
+        q.<span class="hljs-built_in">insert</span>(element-&gt;right);
+      minKey = element-&gt;key &lt; minKey ? element-&gt;key : minKey;
+    }
+    <span class="hljs-keyword">return</span> minKey;
+  }
+  <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">height</span><span class="hljs-params">(treenode *root)</span> </span>{ <span class="hljs-keyword">return</span> <span class="hljs-built_in">nodeHeight</span>(root, <span class="hljs-number">-1</span>); }
+  <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">find</span><span class="hljs-params">(treenode *node, <span class="hljs-type">int</span> target)</span> </span>{
+    <span class="hljs-keyword">if</span> (!node)
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">if</span> (node-&gt;key == target)
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">find</span>(node-&gt;left, target) || <span class="hljs-built_in">find</span>(node-&gt;right, target);
+  }
+
+<span class="hljs-keyword">private</span>:
+  <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">nodeHeight</span><span class="hljs-params">(treenode *node, <span class="hljs-type">int</span> height)</span> </span>{
+    <span class="hljs-keyword">if</span> (!node)
+      <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+    <span class="hljs-keyword">return</span> std::<span class="hljs-built_in">max</span>(<span class="hljs-built_in">nodeHeight</span>(node-&gt;left, height),
+                    <span class="hljs-built_in">nodeHeight</span>(node-&gt;right, height)) +
+           <span class="hljs-number">1</span>;
+  }
+};
+</code></pre>
+<h3 id="postfix_evalc">postfix_eval.C</h3>
+<pre><code class="language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;binarytree.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;bstdef.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;ctype.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fstream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stack&gt;</span> <span class="hljs-comment">// defined in stl</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">isnum</span><span class="hljs-params">(string s)</span> </span>{
+  <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; s.<span class="hljs-built_in">size</span>(); j++)
+    <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">isdigit</span>(s[j]))
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+}
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">isOperator</span><span class="hljs-params">(string s)</span> </span>{
+  <span class="hljs-keyword">return</span> s == <span class="hljs-string">&quot;+&quot;</span> || s == <span class="hljs-string">&quot;-&quot;</span> || s == <span class="hljs-string">&quot;/&quot;</span> || s == <span class="hljs-string">&quot;*&quot;</span>;
+}
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">s2i</span><span class="hljs-params">(string s)</span> </span>{
+  <span class="hljs-type">int</span> num = <span class="hljs-number">0</span>;
+  <span class="hljs-type">int</span> digit = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; s.<span class="hljs-built_in">size</span>(); j++) {
+    <span class="hljs-keyword">switch</span> (s[j]) {
+    <span class="hljs-built_in">case</span> (<span class="hljs-string">&#x27;0&#x27;</span>):
+      digit = <span class="hljs-number">0</span>;
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-built_in">case</span> (<span class="hljs-string">&#x27;1&#x27;</span>):
+      digit = <span class="hljs-number">1</span>;
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-built_in">case</span> (<span class="hljs-string">&#x27;2&#x27;</span>):
+      digit = <span class="hljs-number">2</span>;
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-built_in">case</span> (<span class="hljs-string">&#x27;3&#x27;</span>):
+      digit = <span class="hljs-number">3</span>;
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-built_in">case</span> (<span class="hljs-string">&#x27;4&#x27;</span>):
+      digit = <span class="hljs-number">4</span>;
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-built_in">case</span> (<span class="hljs-string">&#x27;5&#x27;</span>):
+      digit = <span class="hljs-number">5</span>;
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-built_in">case</span> (<span class="hljs-string">&#x27;6&#x27;</span>):
+      digit = <span class="hljs-number">6</span>;
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-built_in">case</span> (<span class="hljs-string">&#x27;7&#x27;</span>):
+      digit = <span class="hljs-number">7</span>;
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-built_in">case</span> (<span class="hljs-string">&#x27;8&#x27;</span>):
+      digit = <span class="hljs-number">8</span>;
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-built_in">case</span> (<span class="hljs-string">&#x27;9&#x27;</span>):
+      digit = <span class="hljs-number">9</span>;
+      <span class="hljs-keyword">break</span>;
+    }; <span class="hljs-comment">// end of switch</span>
+    num = num * <span class="hljs-number">10</span> + digit;
+  }; <span class="hljs-comment">// end of for</span>
+  <span class="hljs-keyword">return</span> num;
+}
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+  stack&lt;bintree&gt; subtrees;
+  
+  string s;
+  <span class="hljs-type">int</span> num;
+  stack&lt;<span class="hljs-type">int</span>&gt; st;
+  <span class="hljs-type">int</span> p1, p2;
+  <span class="hljs-type">int</span> res = <span class="hljs-number">0</span>;
+  string exp = <span class="hljs-string">&quot; &quot;</span>;
+  <span class="hljs-keyword">while</span> (cin &gt;&gt; s) {
+    exp = exp + <span class="hljs-string">&quot; &quot;</span> + s;
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isnum</span>(s)) {
+      num = <span class="hljs-built_in">s2i</span>(s);
+      st.<span class="hljs-built_in">push</span>(num);
+    } <span class="hljs-keyword">else</span> {
+      p1 = st.<span class="hljs-built_in">top</span>();
+      st.<span class="hljs-built_in">pop</span>();
+      p2 = st.<span class="hljs-built_in">top</span>();
+      st.<span class="hljs-built_in">pop</span>();
+      <span class="hljs-keyword">if</span> (s == <span class="hljs-string">&quot;*&quot;</span>)
+        res = p2 * p1;
+      <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (s == <span class="hljs-string">&quot;/&quot;</span>)
+        res = p2 / p1;
+      <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (s == <span class="hljs-string">&quot;+&quot;</span>)
+        res = p2 + p1;
+      <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (s == <span class="hljs-string">&quot;-&quot;</span>)
+        res = p2 - p1;
+      <span class="hljs-keyword">else</span> {
+        cout &lt;&lt; <span class="hljs-string">&quot; unknown operator &quot;</span> &lt;&lt; endl;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+      }
+      st.<span class="hljs-built_in">push</span>(res);
+    };
+
+    bintree tempTree;
+    tempTree.root = tempTree.<span class="hljs-built_in">makenode</span>(s);
+    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">isOperator</span>(s)){
+      tempTree.<span class="hljs-built_in">insertr</span>(tempTree.root, subtrees.<span class="hljs-built_in">top</span>().root);
+      subtrees.<span class="hljs-built_in">pop</span>();
+      tempTree.<span class="hljs-built_in">insertl</span>(tempTree.root, subtrees.<span class="hljs-built_in">top</span>().root);
+      subtrees.<span class="hljs-built_in">pop</span>();
+    }
+    subtrees.<span class="hljs-built_in">push</span>(tempTree);
+
+  }; <span class="hljs-comment">// end of while</span>
+  <span class="hljs-keyword">if</span> (!st.<span class="hljs-built_in">empty</span>())
+    cout &lt;&lt; <span class="hljs-string">&quot;result of expression &quot;</span> &lt;&lt; exp &lt;&lt; <span class="hljs-string">&quot; is : &quot;</span> &lt;&lt; res &lt;&lt; endl;
+  <span class="hljs-keyword">else</span> {
+    cout &lt;&lt; <span class="hljs-string">&quot;expression is not well formed \n&quot;</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>;
+  };
+
+  bintree tree = subtrees.<span class="hljs-built_in">top</span>();
+  cout &lt;&lt; <span class="hljs-string">&quot;postorder traversal is &quot;</span>;
+  tree.<span class="hljs-built_in">postorder</span>(tree.root);
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+
+            
+            
+        </body>
+        </html>
